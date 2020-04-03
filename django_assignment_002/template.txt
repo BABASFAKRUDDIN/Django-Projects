@@ -1,0 +1,30 @@
+#Movie
+    name : VAR_CHAR(100)
+    movie_id : VAR_CHAR(100)
+    release_date : DATE
+    box_office_collection_in_crores : float
+    director : not NULL One-to-One Director
+    
+#Actor
+    actor_id : uniquecde fg PRIMARY KEY
+    name : VAR_CHAR(100)
+
+#Director
+    name : UNIQUE
+    
+#Cast
+    actor : FORIEGN KEY Actor
+    movie : FORIEGN KEY Movie
+    role : VAR_CHAR(50)
+    is_debut_movie : default = False
+    
+#Rating
+    YEAR_IN_SCHOOL_CHOICES = [
+        ('rating_one_count', 1),
+        ('rating_two_count', 2),
+        ('rating_three_count', 3),
+        ('rating_four_count', 4),
+        ('rating_five_count', 5),
+    ]
+    default = 0
+    movie = FORIEGN KEY Movie

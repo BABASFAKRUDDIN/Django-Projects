@@ -1,0 +1,103 @@
+from .models import *
+from datetime import datetime
+import statistics
+
+actors_list =[{ 'actor_id' : 'powerstar','name' : 'Pawan Kalyan'}, {'actor_id' : 'jrntr','name' : 'Jr.NTR'},{'actor_id' : 'rdj','name' : 'Robert Downey Jr'},{'actor_id' : 'rebelstar','name' : 'Prabas'}]
+
+movies_list = [
+{
+'movie_id' : 'Tholi','name' : 'Tholiprema','actors' : [{'actor_id' : 'powerstar','role' : 'hero','is_debut_movie' : False}],'box_office_collection_in_crores' : 20.3,'release_date' : '2000-3-3','director_name' :'Venky Atluri'
+},
+{
+'movie_id' : 'Gabber','name' : 'Gabber Sing','actors' : [{'actor_id' : 'powerstar','role' : 'hero','is_debut_movie' : False}],'box_office_collection_in_crores' : 40.3,'release_date' : '2005-3-3','director_name' :'Harish Shankar'
+},
+{
+'movie_id' : 'Khushi','name' : 'Khushi','actors' : [{'actor_id' : 'powerstar','role' : 'hero','is_debut_movie' : False}],'box_office_collection_in_crores' : 40.3,'release_date' : '2003-3-3','director_name' :'SJ Surya'
+},
+{
+'movie_id' : 'Baahubali','name' : 'Baahubali','actors' : [{'actor_id' : 'rebelstar','role' : 'hero','is_debut_movie' : False}],'box_office_collection_in_crores' : 50.3,'release_date' : '2013-3-3','director_name' :'Raja Mouli'
+},
+{
+'movie_id' : 'Baahubali2','name' : 'Baahubali2','actors' : [{'actor_id' : 'rebelstar','role' : 'hero','is_debut_movie' : False}],'box_office_collection_in_crores' : 60.3,'release_date' : '2016-3-3','director_name' :'Raja Mouli'
+}
+
+]
+
+director_list = ['Venky Atluri', 'Puri Jagannath', 'Raja Mouli', 'Cristopher Nolan', 'Markk Webb','Harish Shankar', 'SJ Surya']
+
+movie_rating_list = [
+    {
+        'movie_id' : 'Tholi',
+        "rating_one_count": 4,
+        "rating_two_count": 5,
+        "rating_three_count": 3,
+        "rating_four_count": 5,
+        "rating_five_count": 4
+    },
+    {
+        'movie_id' : 'Gabber',
+        "rating_one_count": 4,
+        "rating_two_count": 5,
+        "rating_three_count": 3,
+        "rating_four_count": 5,
+        "rating_five_count": 4
+    },
+    {
+        'movie_id' : 'Baahubali2',
+        "rating_one_count": 4,
+        "rating_two_count": 5,
+        "rating_three_count": 3,
+        "rating_four_count": 5,
+        "rating_five_count": 4
+    }
+]
+
+def populate_actors(actors_list = []):
+    for actor_data in actors_list:
+        Actor.objects.create(actor_id = actor_data['actor_id'], name = actor_data['name'])
+    
+def populate_directors(director_list = []):
+    for director_data in directors_list:
+        Director.objects.create(name = director_data)
+
+def populate_movies(movies_list = []):
+    for movie_data in movies_list:
+        m = Movie.objects.create(
+            movie_id = movie_data['movie_id'],
+            name = movie_data['name'],
+            release_date = movie_data['release_date'],
+            box_office_collection_in_crores = movie_data['box_office_collection_in_crores'],
+            director = Director.objects.get(name = movie_data['director_name'])
+        )
+        for actor in movie_data['actors']:
+            Cast.objects.create(actor = Actor.objects.get(actor_id = actor['actor_id']),
+                movie = m,
+                role = actor['role'],
+                is_debut_movie = actor['is_debut_movie']
+            )
+
+def populate_movie_rating(movie_rating_list = []):
+    for rating in movie_rating_list:
+        m = Movie.objects.get(movie_id = rating['movie_id'])
+        Rating.objects.create(
+            movie = m,
+            rating_one_count = rating['rating_one_count'],
+            rating_two_count = rating['rating_two_count'],
+            rating_three_count = rating['rating_three_count'],
+            rating_four_count = rating['rating_four_count'],
+            rating_five_count = rating['rating_five_count']
+        )
+
+def populate():
+    print("Populating Actors...")
+    populate_actors(actors_list)
+    print("Populating Directors...")
+    populate_directors(director_list)
+    print("Populating Movies...")
+    populate_movies(movies_list)
+    print("Populating Ratings...")
+    populate_movie_rating(movie_rating_list)
+
+# task 1
+def get_movies_by_given_movie_names(movie_names):
+    movie_objs = 
